@@ -296,7 +296,29 @@ require('lazy').setup({
           function(server_name)
             local server = servers[server_name] or {}
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
+
+            if server_name == 'pylsp' then
+              require('lspconfig')[server_name].setup(server)
+              if server.settings.pylsp.plugins.pylsp_isort.enabled then
+                vim.cmd [[
+                  PylspInstall python-lsp-isort
+                ]]
+              elseif server.settings.pylsp.plugins.pylsp_black.enabled then
+                vim.cmd [[
+                  PylspInstall python-lsp-black
+                ]]
+              elseif server.settings.pylsp.plugins.pylsp_ruff.enabled then
+                vim.cmd [[
+                  PylspInstall python-lsp-ruff
+                ]]
+              elseif server.settings.pylsp.plugins.pylsp_mypy.enabled then
+                vim.cmd [[
+                  PylspInstall pylsp-mypy
+                ]]
+              end
+            else
+              require('lspconfig')[server_name].setup(server)
+            end
           end,
         },
       }
