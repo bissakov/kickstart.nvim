@@ -1,11 +1,3 @@
--- debug.lua
---
--- Shows how to use the DAP plugin to debug your code.
---
--- Primarily focused on configuring the debugger for Go, but can
--- be extended to other languages as well. That's why it's called
--- kickstart.nvim and not kitchen-sink.nvim ;)
-
 return {
   -- NOTE: Yes, you can install new plugins here!
   'mfussenegger/nvim-dap',
@@ -23,6 +15,7 @@ return {
 
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
+    'mfussenegger/nvim-dap-python',
   },
   config = function()
     local dap = require 'dap'
@@ -42,6 +35,7 @@ return {
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
         'delve',
+        'python',
       },
     }
 
@@ -79,12 +73,29 @@ return {
 
     -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
     vim.keymap.set('n', '<F7>', dapui.toggle, { desc = 'Debug: See last session result.' })
+    vim.keymap.set('n', '<leader>e', function()
+      dapui.eval(vim.fn.input '[Expression] > ')
+    end, { desc = 'Debug: Evaluate expression' })
 
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
-    -- Install golang specific config
+    vim.api.nvim_set_hl(0, 'DapBreakpoint', { ctermbg = 0, fg = '#993939', bg = '#31353f' })
+    vim.fn.sign_define('DapBreakpoint', { text = '', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
+
     require('dap-go').setup()
+    require('dap-python').setup(require('mason-registry').get_package('debugpy'):get_install_path() .. '\\venv\\Scripts\\pythonw.exe')
+
+    dap.configurations.python = {
+      {
+        justMyCode = false,
+        type = 'python',
+        request = 'launch',
+        name = 'launch file',
+        program = '${file}',
+        pythonPath = os.getenv 'VIRTUAL_ENV' .. '/Scripts/pythonw.exe',
+      },
+    }
   end,
 }
