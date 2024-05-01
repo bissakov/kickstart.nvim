@@ -93,12 +93,19 @@ return {
         type = 'python',
         request = 'launch',
         name = 'Module',
-        console = 'integratedTerminal',
+        console = 'internalConsole',
         module = function()
           return vim.fn.input 'Module: '
         end,
         cwd = '${workspaceFolder}',
-        pythonPath = os.getenv 'VIRTUAL_ENV' .. '/Scripts/pythonw.exe',
+        pythonPath = function()
+          local virtual_env = os.getenv 'VIRTUAL_ENV'
+          if virtual_env ~= nil then
+            return virtual_env .. '/Scripts/pythonw.exe'
+          else
+            return 'pythonw'
+          end
+        end,
       },
     }
   end,
