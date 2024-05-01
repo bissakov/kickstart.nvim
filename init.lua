@@ -10,6 +10,18 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
 
+local vimrc = os.getenv 'MYVIMRC'
+local current_folder = vim.fn.fnamemodify(vimrc, ':h')
+local venv = current_folder .. '\\venv'
+local pip = venv .. '\\Scripts\\pip.exe'
+
+if not vim.fn.isdirectory(venv) then
+  vim.cmd('!py -3.11 -m venv ' .. venv)
+  vim.cmd('!' .. pip .. ' install neovim')
+end
+
+vim.g.python3_host_prog = venv .. '\\Scripts\\python.exe'
+
 --  NOTE: Options
 
 vim.opt.number = true
@@ -120,6 +132,7 @@ require('lazy').setup({
             '.idea',
             '.github',
             'logs',
+            'src_old',
           },
         },
         extensions = {
@@ -194,33 +207,43 @@ require('lazy').setup({
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
           local client = vim.lsp.get_client_by_id(event.data.client_id)
           if client and client.server_capabilities.documentHighlightProvider then
+            local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
               buffer = event.buf,
+              group = highlight_augroup,
               callback = vim.lsp.buf.document_highlight,
             })
 
             vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
               buffer = event.buf,
+              group = highlight_augroup,
               callback = vim.lsp.buf.clear_references,
             })
           end
 
           if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
             map('<leader>th', function()
-              vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
             end, '[T]oggle Inlay [H]ints')
           end
         end,
       })
+
+      vim.api.nvim_create_autocmd('LspDetach', {
+        group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
+        callback = function(event)
+          vim.lsp.buf.clear_references()
+          vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event.buf }
+        end,
+      })
+
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
       --  NOTE:  LSP Servers
-
       local servers = {
 
         --  NOTE: Golang Plugins
-
         gopls = {
           filetypes = { 'go', 'gomod' },
           settings = {
@@ -233,6 +256,20 @@ require('lazy').setup({
         golangci_lint_ls = {},
 
         --  NOTE: Python Plugins
+        basedpyright = {
+
+          settings = {
+            basedpyright = {
+              disableOrganizeImports = true,
+              analysis = {
+                autoSearchPaths = true,
+                diagnosticMode = 'workspace',
+                typeCheckingMode = 'basic',
+                useLibraryCodeForTypes = true,
+              },
+            },
+          },
+        },
         pylsp = {
           settings = {
             pylsp = {
@@ -256,8 +293,10 @@ require('lazy').setup({
                 },
                 -- type checker
                 pylsp_mypy = {
-                  enabled = true,
-                  strict = true,
+                  enabled = false,
+                  live_mode = false,
+                  dmypy = false,
+                  strict = false,
                   report_progress = true,
                 },
                 -- auto-completion options
@@ -299,23 +338,22 @@ require('lazy').setup({
 
             if server_name == 'pylsp' then
               require('lspconfig')[server_name].setup(server)
-              if server.settings.pylsp.plugins.pylsp_isort.enabled then
-                vim.cmd [[
-                  PylspInstall python-lsp-isort
-                ]]
-              elseif server.settings.pylsp.plugins.pylsp_black.enabled then
-                vim.cmd [[
-                  PylspInstall python-lsp-black
-                ]]
-              elseif server.settings.pylsp.plugins.pylsp_ruff.enabled then
-                vim.cmd [[
-                  PylspInstall python-lsp-ruff
-                ]]
-              elseif server.settings.pylsp.plugins.pylsp_mypy.enabled then
-                vim.cmd [[
-                  PylspInstall pylsp-mypy
-                ]]
-              end
+
+              -- do
+              --   local third_party_plugins = {
+              --     pylsp_black = 'python-lsp-black',
+              --     pylsp_ruff = 'python-lsp-ruff',
+              --     pylsp_mypy = 'pylsp-mypy',
+              --     pylsp_isort = 'python-lsp-isort',
+              --   }
+              --
+              --   for _plugin, package_name in pairs(third_party_plugins) do
+              --     local plugin = server.settings.pylsp.plugins[_plugin]
+              --     if plugin and plugin.enabled then
+              --       vim.cmd('PylspInstall ' .. package_name)
+              --     end
+              --   end
+              -- end
             else
               require('lspconfig')[server_name].setup(server)
             end
