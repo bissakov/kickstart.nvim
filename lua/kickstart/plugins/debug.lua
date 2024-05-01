@@ -92,8 +92,12 @@ return {
         justMyCode = false,
         type = 'python',
         request = 'launch',
-        name = 'launch file',
-        program = '${file}',
+        name = 'Module',
+        console = 'integratedTerminal',
+        module = function()
+          return vim.fn.input 'Module: '
+        end,
+        cwd = '${workspaceFolder}',
         pythonPath = os.getenv 'VIRTUAL_ENV' .. '/Scripts/pythonw.exe',
       },
     }
