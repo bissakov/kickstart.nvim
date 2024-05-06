@@ -257,7 +257,6 @@ require('lazy').setup({
 
         --  NOTE: Python Plugins
         basedpyright = {
-
           settings = {
             basedpyright = {
               disableOrganizeImports = true,
@@ -270,43 +269,9 @@ require('lazy').setup({
             },
           },
         },
-        pylsp = {
+        ruff_lsp = {
           settings = {
-            pylsp = {
-              configurationSources = {},
-              plugins = {
-                -- formatter options
-                pylsp_black = { enabled = true },
-                autopep8 = { enabled = false },
-                flake8 = { enabled = false },
-                yapf = { enabled = false },
-                -- linter options
-                pylint = {
-                  enabled = false,
-                },
-                pyflakes = { enabled = false },
-                pycodestyle = { enabled = false },
-                mccabe = { enabled = false },
-                pylsp_ruff = {
-                  enabled = true,
-                  formatEnabled = false,
-                },
-                -- type checker
-                pylsp_mypy = {
-                  enabled = false,
-                  live_mode = false,
-                  dmypy = false,
-                  strict = false,
-                  report_progress = true,
-                },
-                -- auto-completion options
-                jedi_completion = {
-                  fuzzy = true,
-                },
-                -- import sorting
-                pylsp_isort = { enabled = true },
-              },
-            },
+            ruff_lsp = {},
           },
         },
 
@@ -335,28 +300,7 @@ require('lazy').setup({
           function(server_name)
             local server = servers[server_name] or {}
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-
-            if server_name == 'pylsp' then
-              require('lspconfig')[server_name].setup(server)
-
-              -- do
-              --   local third_party_plugins = {
-              --     pylsp_black = 'python-lsp-black',
-              --     pylsp_ruff = 'python-lsp-ruff',
-              --     pylsp_mypy = 'pylsp-mypy',
-              --     pylsp_isort = 'python-lsp-isort',
-              --   }
-              --
-              --   for _plugin, package_name in pairs(third_party_plugins) do
-              --     local plugin = server.settings.pylsp.plugins[_plugin]
-              --     if plugin and plugin.enabled then
-              --       vim.cmd('PylspInstall ' .. package_name)
-              --     end
-              --   end
-              -- end
-            else
-              require('lspconfig')[server_name].setup(server)
-            end
+            require('lspconfig')[server_name].setup(server)
           end,
         },
       }
