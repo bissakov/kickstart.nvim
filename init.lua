@@ -261,6 +261,7 @@ require('lazy').setup({
             basedpyright = {
               disableOrganizeImports = true,
               analysis = {
+                autoImportCompletions = true,
                 autoSearchPaths = true,
                 diagnosticMode = 'workspace',
                 typeCheckingMode = 'basic',
@@ -270,8 +271,10 @@ require('lazy').setup({
           },
         },
         ruff_lsp = {
-          settings = {
-            ruff_lsp = {},
+          init_options = {
+            settings = {
+              args = {},
+            },
           },
         },
 
@@ -300,6 +303,11 @@ require('lazy').setup({
           function(server_name)
             local server = servers[server_name] or {}
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+
+            if server_name == 'ruff_lsp' then
+              server.capabilities.hoverProvider = false
+            end
+
             require('lspconfig')[server_name].setup(server)
           end,
         },
@@ -332,6 +340,7 @@ require('lazy').setup({
         lua = { 'stylua' },
         go = { 'goimports' },
         sql = { 'sql_formatter' },
+        python = { 'isort', 'ruff_format' },
       },
     },
   },
