@@ -277,6 +277,8 @@ require('lazy').setup({
             },
           },
         },
+        isort = {},
+        ruff = {},
 
         --  NOTE: Lua Plugins
         lua_ls = {
@@ -288,6 +290,9 @@ require('lazy').setup({
             },
           },
         },
+
+        --  NOTE: JSON Plugins
+        jq = {},
       }
 
       require('mason').setup()
@@ -305,6 +310,8 @@ require('lazy').setup({
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
 
             if server_name == 'ruff_lsp' then
+              server.capabilities.hoverProvider = false
+            elseif server_name == 'ruff' then
               server.capabilities.hoverProvider = false
             end
 
@@ -328,7 +335,7 @@ require('lazy').setup({
       },
     },
     opts = {
-      notify_on_error = false,
+      notify_on_error = true,
       format_on_save = function(bufnr)
         local disable_filetypes = { c = true, cpp = true }
         return {
@@ -341,6 +348,7 @@ require('lazy').setup({
         go = { 'goimports' },
         sql = { 'sql_formatter' },
         python = { 'isort', 'ruff_format' },
+        json = { 'jq' },
       },
     },
   },
