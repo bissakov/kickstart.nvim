@@ -71,6 +71,46 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+vim.api.nvim_create_autocmd('BufWritePost', {
+  desc = 'Format on save',
+  pattern = { '*.py', '*.lua', '*.json' },
+  group = vim.api.nvim_create_augroup('custom-auto-format', { clear = true }),
+  callback = function()
+    local mason_registry = require 'mason-registry'
+    local current_file = vim.fn.expand '%:p'
+
+    local file_ext = vim.fn.expand '%:e'
+
+    if file_ext == 'py' then
+      local isort = mason_registry.get_package('isort'):get_install_path()
+      local ruff = mason_registry.get_package('ruff'):get_install_path()
+
+      local isort_exe = isort .. '\\venv\\Scripts\\isort.exe'
+      local ruff_exe = ruff .. '\\venv\\Scripts\\ruff.exe'
+
+      vim.cmd('silent !' .. isort_exe .. ' ' .. current_file)
+      vim.cmd('silent !' .. ruff_exe .. ' format ' .. current_file)
+    elseif file_ext == 'lua' then
+      local stylua = mason_registry.get_package('stylua'):get_install_path()
+      local stylua_exe = stylua .. '\\stylua.exe'
+
+      local args = {
+        '--indent-width 2',
+        '--indent-type Spaces',
+        '--column-width 120',
+        '--quote-style AutoPreferSingle',
+        '--call-parentheses None',
+        '--sort-requires',
+      }
+
+      vim.cmd('silent !' .. stylua_exe .. ' ' .. current_file .. ' ' .. table.concat(args, ' '))
+    elseif file_ext == 'json' then
+      local jq_exe = mason_registry.get_package('jq'):get_install_path() .. '\\jq-windows-amd64.exe'
+      vim.cmd('silent !' .. jq_exe .. ' . ' .. current_file .. ' > ' .. current_file .. '.tmp')
+    end
+  end,
+})
+
 --  NOTE: Lazy setup
 
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -320,37 +360,6 @@ require('lazy').setup({
         },
       }
     end,
-  },
-  {
-    'stevearc/conform.nvim',
-    lazy = false,
-    keys = {
-      {
-        '<leader>f',
-        function()
-          require('conform').format { async = true, lsp_fallback = true }
-        end,
-        mode = '',
-        desc = '[F]ormat buffer',
-      },
-    },
-    opts = {
-      notify_on_error = true,
-      format_on_save = function(bufnr)
-        local disable_filetypes = { c = true, cpp = true }
-        return {
-          timeout_ms = 500,
-          lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
-        }
-      end,
-      formatters_by_ft = {
-        lua = { 'stylua' },
-        go = { 'goimports' },
-        sql = { 'sql_formatter' },
-        python = { 'isort', 'ruff_format' },
-        json = { 'jq' },
-      },
-    },
   },
   {
     'hrsh7th/nvim-cmp',
