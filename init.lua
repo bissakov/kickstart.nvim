@@ -317,8 +317,13 @@ require('lazy').setup({
             },
           },
         },
-        isort = {},
-        ruff = {},
+        ruff = {
+          init_options = {
+            settings = {
+              args = {},
+            },
+          },
+        },
 
         --  NOTE: Lua Plugins
         lua_ls = {
@@ -355,7 +360,9 @@ require('lazy').setup({
               server.capabilities.hoverProvider = false
             end
 
-            require('lspconfig')[server_name].setup(server)
+            if server_name ~= 'ruff' then
+              require('lspconfig')[server_name].setup(server)
+            end
           end,
         },
       }
