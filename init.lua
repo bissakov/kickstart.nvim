@@ -265,7 +265,10 @@ require('lazy').setup({
               group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
               callback = function(event)
                 vim.lsp.buf.clear_references()
-                vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event.buf }
+                vim.api.nvim_clear_autocmds {
+                  group = 'kickstart-lsp-highlight',
+                  buffer = event.buf,
+                }
               end,
             })
           end
@@ -427,7 +430,12 @@ require('lazy').setup({
     end,
   },
 
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+  {
+    'folke/todo-comments.nvim',
+    event = 'VimEnter',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    opts = { signs = false },
+  },
 
   {
     'echasnovski/mini.nvim',
