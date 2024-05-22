@@ -101,6 +101,7 @@ vim.api.nvim_create_autocmd('BufWritePost', {
         '--quote-style AutoPreferSingle',
         '--call-parentheses None',
         '--sort-requires',
+        '--line-endings Unix',
       }
 
       vim.cmd('silent !' .. stylua_exe .. ' ' .. current_file .. ' ' .. table.concat(args, ' '))
