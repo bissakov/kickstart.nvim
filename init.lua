@@ -71,6 +71,40 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+vim.api.nvim_create_namespace 'docstring_fold_ns'
+function _G.DocstringFoldExpr(lnum)
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local in_docstring = false
+  local fold_levels = {}
+
+  for i, line in ipairs(lines) do
+    if in_docstring then
+      fold_levels[i] = 1
+      if line:find '"""' then
+        in_docstring = false
+      end
+    else
+      fold_levels[i] = 0
+      if line:find '^%s*"""' then
+        in_docstring = true
+        fold_levels[i] = 1
+      end
+    end
+  end
+
+  return fold_levels[lnum] or 0
+end
+
+vim.api.nvim_create_autocmd({ 'BufReadPre', 'FileReadPre' }, {
+  group = vim.api.nvim_create_augroup('python_docstring_folding', { clear = true }),
+  pattern = '*.py',
+  callback = function()
+    vim.opt_local.foldmethod = 'expr'
+    vim.opt_local.foldexpr = 'v:lua.DocstringFoldExpr(v:lnum)'
+    vim.opt_local.foldenable = true
+  end,
+})
+
 vim.api.nvim_create_autocmd('BufWritePost', {
   desc = 'Format on save',
   pattern = { '*.py', '*.lua', '*.json' },
@@ -463,10 +497,17 @@ require('lazy').setup({
         'lua',
         'luadoc',
         'markdown',
+        'python',
         'vim',
         'vimdoc',
       },
       auto_install = true,
+      incremental_selection = {
+        enable = true,
+      },
+      fold = {
+        enable = true,
+      },
       highlight = {
         enable = true,
         additional_vim_regex_highlighting = { 'ruby' },
