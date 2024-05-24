@@ -131,7 +131,7 @@ vim.api.nvim_create_autocmd('BufWritePost', {
       local args = {
         '--indent-width 2',
         '--indent-type Spaces',
-        '--column-width 120',
+        '--column-width 160',
         '--quote-style AutoPreferSingle',
         '--call-parentheses None',
         '--sort-requires',
