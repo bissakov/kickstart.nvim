@@ -96,15 +96,26 @@ function _G.DocstringFoldExpr(lnum)
   return fold_levels[lnum] or 0
 end
 
-vim.api.nvim_create_autocmd({ 'BufReadPre', 'FileReadPre' }, {
-  group = vim.api.nvim_create_augroup('python_docstring_folding', { clear = true }),
-  pattern = '*.py',
-  callback = function()
-    vim.opt_local.foldmethod = 'expr'
-    vim.opt_local.foldexpr = 'v:lua.DocstringFoldExpr(v:lnum)'
-    vim.opt_local.foldenable = true
-  end,
-})
+function _G.DocstringFold()
+  local current_file_type = vim.bo.filetype
+  if current_file_type ~= 'python' then
+    return
+  end
+
+  local foldmethod = vim.opt_local.foldmethod:get()
+  local foldexpr = vim.opt_local.foldexpr:get()
+  local foldenable = vim.opt_local.foldenable:get()
+
+  if foldmethod == 'expr' and foldexpr == 'v:lua.DocstringFoldExpr(v:lnum)' and foldenable then
+    return
+  end
+
+  vim.opt_local.foldmethod = 'expr'
+  vim.opt_local.foldexpr = 'v:lua.DocstringFoldExpr(v:lnum)'
+  vim.opt_local.foldenable = true
+end
+
+vim.keymap.set('n', '<leader>df', '<cmd>lua DocstringFold()<CR>', { desc = 'Fold [D]ocstrings' })
 
 vim.api.nvim_create_autocmd('BufWritePost', {
   desc = 'Format on save',
