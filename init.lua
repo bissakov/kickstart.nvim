@@ -131,8 +131,12 @@ vim.api.nvim_create_autocmd('BufWritePost', {
       local isort_exe = isort .. '\\venv\\Scripts\\isort.exe'
       local ruff_exe = ruff .. '\\venv\\Scripts\\ruff.exe'
 
+      local args = {
+        '--line-length 80',
+      }
+
       vim.cmd('silent !' .. isort_exe .. ' ' .. current_file)
-      vim.cmd('silent !' .. ruff_exe .. ' format ' .. current_file)
+      vim.cmd('silent !' .. ruff_exe .. ' format ' .. current_file .. ' ' .. table.concat(args, ' '))
     elseif file_ext == 'lua' then
       local stylua = mason_registry.get_package('stylua'):get_install_path()
       local stylua_exe = stylua .. '\\stylua.exe'
