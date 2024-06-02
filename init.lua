@@ -261,6 +261,8 @@ require('lazy').setup({
     end,
   },
 
+  { 'Bilal2453/luvit-meta', lazy = true },
+
   --  NOTE: LSP Configurations
 
   {
@@ -270,7 +272,15 @@ require('lazy').setup({
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
       { 'j-hui/fidget.nvim', opts = {} },
-      { 'folke/neodev.nvim', opts = {} },
+      {
+        'folke/lazydev.nvim',
+        ft = 'lua',
+        opts = {
+          library = {
+            'luvit-meta/library',
+          },
+        },
+      },
     },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -376,6 +386,12 @@ require('lazy').setup({
         lua_ls = {
           settings = {
             Lua = {
+              diagnostics = {
+                globals = {
+                  'vim',
+                  'require',
+                },
+              },
               completion = {
                 callSnippet = 'Replace',
               },
@@ -418,6 +434,13 @@ require('lazy').setup({
   {
     'hrsh7th/nvim-cmp',
     event = 'InsertEnter',
+    opts = function(_, opts)
+      opts.sources = opts.sources or {}
+      table.insert(opts.sources, {
+        name = 'lazydev',
+        group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+      })
+    end,
     dependencies = {
       {
         'L3MON4D3/LuaSnip',
