@@ -109,6 +109,7 @@ require('lazy').setup({
   },
 
   require 'kickstart.plugins.telescope',
+  require 'kickstart.plugins.theme',
   require 'kickstart.plugins.lsp',
 
   { 'Bilal2453/luvit-meta', lazy = true },
@@ -329,16 +330,6 @@ require('lazy').setup({
         )
       end,
     },
-  },
-  {
-    'Mofiqul/vscode.nvim',
-    priority = 1000,
-    init = function()
-      require('vscode').setup()
-
-      vim.cmd.colorscheme 'vscode'
-      vim.cmd.hi 'Comment gui=none'
-    end,
   },
   {
     'folke/trouble.nvim',
