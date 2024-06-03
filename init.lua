@@ -270,7 +270,6 @@ require('lazy').setup({
     end,
   },
 
-  'tpope/vim-sleuth',
   {
     'lewis6991/gitsigns.nvim',
     opts = {
