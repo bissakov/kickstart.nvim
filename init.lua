@@ -10,7 +10,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
 
-local vimrc = os.getenv 'MYVIMRC'
+local vimrc = os.getenv 'MYVIMRC' or vim.fn.stdpath 'config' .. '/init.lua'
 local current_folder = vim.fn.fnamemodify(vimrc, ':h')
 local venv = current_folder .. '\\venv'
 local pip = venv .. '\\Scripts\\pip.exe'
@@ -99,9 +99,9 @@ function _G.DocstringFold()
     return
   end
 
-  local foldmethod = vim.opt_local.foldmethod:get()
-  local foldexpr = vim.opt_local.foldexpr:get()
-  local foldenable = vim.opt_local.foldenable:get()
+  local foldmethod = vim.opt_local.foldmethod
+  local foldexpr = vim.opt_local.foldexpr
+  local foldenable = vim.opt_local.foldenable
 
   if foldmethod == 'expr' and foldexpr == 'v:lua.DocstringFoldExpr(v:lnum)' and foldenable then
     return
@@ -441,7 +441,7 @@ require('lazy').setup({
       opts.sources = opts.sources or {}
       table.insert(opts.sources, {
         name = 'lazydev',
-        group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+        group_index = 0,
       })
     end,
     dependencies = {
@@ -570,7 +570,7 @@ require('lazy').setup({
       }
     end,
   },
-  { -- Linting
+  {
     'mfussenegger/nvim-lint',
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
