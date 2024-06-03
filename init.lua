@@ -1,4 +1,4 @@
--- kickstart.nvim:
+-- kickstart.nvim
 
 --  NOTE: Logging
 
@@ -109,12 +109,9 @@ require('lazy').setup({
   },
 
   require 'kickstart.plugins.telescope',
+  require 'kickstart.plugins.lsp',
 
   { 'Bilal2453/luvit-meta', lazy = true },
-
-  --  NOTE: LSP Configurations
-
-  require 'kickstart.plugins.lsp',
 
   {
     'hrsh7th/nvim-cmp',
@@ -285,7 +282,6 @@ require('lazy').setup({
           vim.keymap.set(mode, l, r, opts)
         end
 
-        -- Navigation
         map('n', ']c', function()
           if vim.wo.diff then
             vim.cmd.normal { ']c', bang = true }
@@ -302,15 +298,12 @@ require('lazy').setup({
           end
         end, { desc = 'Jump to previous git [c]hange' })
 
-        -- Actions
-        -- visual mode
         map('v', '<leader>hs', function()
           gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
         end, { desc = 'stage git hunk' })
         map('v', '<leader>hr', function()
           gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
         end, { desc = 'reset git hunk' })
-        -- normal mode
         map('n', '<leader>hs', gitsigns.stage_hunk, { desc = 'git [s]tage hunk' })
         map('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'git [r]eset hunk' })
         map('n', '<leader>hS', gitsigns.stage_buffer, { desc = 'git [S]tage buffer' })
@@ -322,7 +315,6 @@ require('lazy').setup({
         map('n', '<leader>hD', function()
           gitsigns.diffthis '@'
         end, { desc = 'git [D]iff against last commit' })
-        -- Toggles
         map(
           'n',
           '<leader>tb',
@@ -337,9 +329,6 @@ require('lazy').setup({
         )
       end,
     },
-  },
-  {
-    'github/copilot.vim',
   },
   {
     'Mofiqul/vscode.nvim',
@@ -390,6 +379,7 @@ require('lazy').setup({
     },
   },
   'mg979/vim-visual-multi',
+  'github/copilot.vim',
 }, {
   ui = {
     icons = vim.g.have_nerd_font and {} or {
