@@ -32,11 +32,7 @@ function _G.DocstringFold()
   local foldexpr = vim.opt_local.foldexpr
   local foldenable = vim.opt_local.foldenable
 
-  if
-    foldmethod == 'expr'
-    and foldexpr == 'v:lua.DocstringFoldExpr(v:lnum)'
-    and foldenable
-  then
+  if foldmethod == 'expr' and foldexpr == 'v:lua.DocstringFoldExpr(v:lnum)' and foldenable then
     return
   end
 

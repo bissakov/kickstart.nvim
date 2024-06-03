@@ -21,12 +21,7 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 
       vim.cmd('silent !' .. isort_exe .. ' ' .. current_file)
       vim.cmd(
-        'silent !'
-          .. ruff_exe
-          .. ' format '
-          .. current_file
-          .. ' '
-          .. table.concat(args, ' ')
+        'silent !' .. ruff_exe .. ' format ' .. current_file .. ' ' .. table.concat(args, ' ')
       )
     elseif file_ext == 'lua' then
       local stylua = mason_registry.get_package('stylua'):get_install_path()
@@ -35,7 +30,7 @@ vim.api.nvim_create_autocmd('BufWritePost', {
       local args = {
         '--indent-width 2',
         '--indent-type Spaces',
-        '--column-width 90',
+        '--column-width 95',
         '--quote-style AutoPreferSingle',
         '--call-parentheses None',
         '--sort-requires',
@@ -48,9 +43,7 @@ vim.api.nvim_create_autocmd('BufWritePost', {
     elseif file_ext == 'json' then
       local jq_exe = mason_registry.get_package('jq'):get_install_path()
         .. '\\jq-windows-amd64.exe'
-      vim.cmd(
-        'silent !' .. jq_exe .. ' . ' .. current_file .. ' > ' .. current_file .. '.tmp'
-      )
+      vim.cmd('silent !' .. jq_exe .. ' . ' .. current_file .. ' > ' .. current_file .. '.tmp')
     end
   end,
 })
