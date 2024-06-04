@@ -33,7 +33,7 @@ vim.opt.cursorline = true
 vim.opt.scrolloff = 8
 vim.opt.smartindent = true
 
-require('kickstart.venv').setup()
+require('kickstart.py_env').setup()
 require 'kickstart.mappings'
 
 --  NOTE: Keymaps
