@@ -60,11 +60,12 @@ vim.api.nvim_create_autocmd('BufWritePost', {
     local current_file = vim.fn.expand '%:p'
 
     local file_ext = vim.fn.expand '%:e'
-    if not formatters[current_file] then
+    local formatter = formatters[file_ext]
+    if formatter == nil then
       return
     end
 
-    local cmd = formatters[file_ext].cmd(mason_registry, current_file)
+    local cmd = formatter.cmd(mason_registry, current_file)
     vim.cmd('silent !' .. cmd)
   end,
 })
