@@ -1,5 +1,5 @@
 local is_windows = vim.fn.has 'win32' == 1
-utils = require 'kickstart.utils'
+local utils = require 'kickstart.utils'
 
 local formatters = {
   py = {
@@ -7,9 +7,11 @@ local formatters = {
       local isort = mason_registry.get_package('isort'):get_install_path()
       local ruff = mason_registry.get_package('ruff'):get_install_path()
 
-      local bin_path = is_windows and '/Scripts' or '/bin'
-      local isort_exe = utils.join({ isort, 'venv', bin_path, 'isort' }, '/')
-      local ruff_exe = utils.join({ ruff, 'venv', bin_path, 'ruff' }, '/')
+      local bin_path = is_windows and 'Scripts' or 'bin'
+      local isort_exe =
+        utils.join({ isort, 'venv', bin_path, is_windows and 'isort.exe' or 'isort' }, '/')
+      local ruff_exe =
+        utils.join({ ruff, 'venv', bin_path, is_windows and 'ruff.exe' or 'ruff' }, '/')
 
       local args = utils.join({ '--line-length 80' }, ' ')
 
@@ -62,21 +64,25 @@ local formatters = {
   },
 }
 
+local function format()
+  local current_file = vim.fn.expand '%:p'
+  local file_ext = vim.fn.expand '%:e'
+  local mason_registry = require 'mason-registry'
+  local formatter = formatters[file_ext]
+  if formatter == nil then
+    return
+  end
+
+  local cmd = formatter.cmd(mason_registry, current_file)
+  vim.cmd('silent !' .. cmd)
+end
+
 vim.api.nvim_create_autocmd('BufWritePost', {
   desc = 'Format on save',
-  pattern = { '*.py', '*.lua', '*.c', '*.json' },
+  pattern = { '*' },
   group = vim.api.nvim_create_augroup('custom-auto-format', { clear = true }),
   callback = function()
-    local mason_registry = require 'mason-registry'
-    local current_file = vim.fn.expand '%:p'
-
-    local file_ext = vim.fn.expand '%:e'
-    local formatter = formatters[file_ext]
-    if formatter == nil then
-      return
-    end
-
-    local cmd = formatter.cmd(mason_registry, current_file)
-    vim.cmd('silent !' .. cmd)
+    utils.setTimeout(1000)
+    format()
   end,
 })

@@ -21,4 +21,16 @@ function M.join(args, sep)
   return table.concat(args, sep)
 end
 
+--- Set a timeout
+--- @param timeout number
+--- @return table
+function M.setTimeout(timeout)
+  local timer = vim.uv.new_timer()
+  timer:start(timeout, 0, function()
+    timer:stop()
+    timer:close()
+  end)
+  return timer
+end
+
 return M
