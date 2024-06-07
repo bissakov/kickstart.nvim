@@ -40,14 +40,14 @@ local formatters = {
 
       return cmd
     end,
-    json = {
-      cmd = function(mason_registry, current_file)
-        local jq = mason_registry.get_package 'jq'
-        local jq_exe = jq:get_install_path() .. '/jq-windows-amd64.exe'
-        local cmd = jq_exe .. ' . ' .. current_file .. ' > ' .. current_file .. '.tmp'
-        return cmd
-      end,
-    },
+  },
+  json = {
+    cmd = function(mason_registry, current_file)
+      local jq = mason_registry.get_package 'jq'
+      local jq_exe = jq:get_install_path() .. '/jq-windows-amd64.exe'
+      local cmd = jq_exe .. ' . ' .. current_file .. ' > ' .. current_file .. '.tmp'
+      return cmd
+    end,
   },
 }
 
