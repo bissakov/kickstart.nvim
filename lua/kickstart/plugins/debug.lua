@@ -93,15 +93,12 @@ return {
     }
 
     vim.api.nvim_set_hl(0, 'DapBreakpoint', { ctermbg = 0, fg = '#993939', bg = '#31353f' })
-    vim.fn.sign_define(
-      'DapBreakpoint',
-      {
-        text = '',
-        texthl = 'DapBreakpoint',
-        linehl = 'DapBreakpoint',
-        numhl = 'DapBreakpoint',
-      }
-    )
+    vim.fn.sign_define('DapBreakpoint', {
+      text = '',
+      texthl = 'DapBreakpoint',
+      linehl = 'DapBreakpoint',
+      numhl = 'DapBreakpoint',
+    })
 
     require('dap-go').setup()
     require('dap-python').setup(
