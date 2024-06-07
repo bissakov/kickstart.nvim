@@ -1,4 +1,5 @@
 local is_windows = vim.fn.has 'win32' == 1
+utils = require 'kickstart.utils'
 
 local formatters = {
   py = {
@@ -7,17 +8,15 @@ local formatters = {
       local ruff = mason_registry.get_package('ruff'):get_install_path()
 
       local bin_path = is_windows and '/Scripts' or '/bin'
-      local isort_exe = isort .. '/venv' .. bin_path .. '/isort.exe'
-      local ruff_exe = ruff .. '/venv' .. bin_path .. '/ruff.exe'
+      local isort_exe = utils.join({ isort, 'venv', bin_path, 'isort' }, '/')
+      local ruff_exe = utils.join({ ruff, 'venv', bin_path, 'ruff' }, '/')
 
-      local args = {
-        '--line-length 80',
-      }
+      local args = utils.join({ '--line-length 80' }, ' ')
 
-      local isort_cmd = isort_exe .. ' ' .. current_file
-      local ruff_cmd = ruff_exe .. ' format ' .. current_file .. ' ' .. table.concat(args, ' ')
-      local cmd = isort_cmd .. ' && ' .. ruff_cmd
-
+      local cmd = utils.join(
+        { isort_exe, current_file, '&&', ruff_exe, 'format', current_file, args },
+        ' '
+      )
       return cmd
     end,
   },
@@ -26,7 +25,7 @@ local formatters = {
       local stylua = mason_registry.get_package('stylua'):get_install_path()
       local stylua_exe = stylua .. (is_windows and '/stylua.exe' or '/stylua')
 
-      local args = {
+      local args = utils.join({
         '--indent-width 2',
         '--indent-type Spaces',
         '--column-width 95',
@@ -34,27 +33,22 @@ local formatters = {
         '--call-parentheses None',
         '--sort-requires',
         '--line-endings Unix',
-      }
+      }, ' ')
 
-      local cmd = stylua_exe .. ' ' .. current_file .. ' ' .. table.concat(args, ' ')
-
+      local cmd = utils.join({ stylua_exe, current_file, args }, ' ')
       return cmd
     end,
   },
   c = {
     cmd = function(mason_registry, current_file)
       local clang_format = mason_registry.get_package('clang-format'):get_install_path()
-      local bin_path = is_windows and '/Scripts' or '/bin'
-      local clang_format_exe = clang_format
-        .. '/venv'
-        .. bin_path
-        .. (is_windows and '/clang-format.exe' or '/clang-format')
+      local bin_path =
+        utils.join({ clang_format, 'venv', is_windows and 'Scripts' or 'bin' }, '/')
+      local clang_format_exe =
+        utils.join({ bin_path, is_windows and 'clang-format.exe' or 'clang-format' }, '/')
 
-      local args = {
-        '-style=google',
-      }
-      local cmd = clang_format_exe .. ' ' .. table.concat(args, ' ') .. ' -i ' .. current_file
-
+      local args = utils.join({ '-style=google' }, ' ')
+      local cmd = utils.join({ clang_format_exe, args, '-i', current_file }, ' ')
       return cmd
     end,
   },
@@ -62,7 +56,7 @@ local formatters = {
     cmd = function(mason_registry, current_file)
       local jq = mason_registry.get_package 'jq'
       local jq_exe = jq:get_install_path() .. '/jq-windows-amd64.exe'
-      local cmd = jq_exe .. ' . ' .. current_file .. ' > ' .. current_file .. '.tmp'
+      local cmd = utils.join({ jq_exe, '.', current_file, '>', current_file, '.tmp' }, ' ')
       return cmd
     end,
   },

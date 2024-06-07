@@ -13,4 +13,12 @@ function M.ternary(cond, T, F)
   end
 end
 
+--- Join a list of strings with a separator
+--- @param args table
+--- @param sep string
+--- @return string
+function M.join(args, sep)
+  return table.concat(args, sep)
+end
+
 return M
