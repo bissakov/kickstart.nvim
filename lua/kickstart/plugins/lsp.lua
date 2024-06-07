@@ -147,6 +147,11 @@ return {
         },
       },
 
+      --  NOTE: C Plugins
+      clangd = {
+        cmd = { 'clangd', '--offset-encoding=utf-16' },
+      },
+
       --  NOTE: JSON Plugins
       jq = {},
     }
@@ -157,7 +162,7 @@ return {
     vim.list_extend(ensure_installed, {
       'stylua',
       'isort',
-      'ruff'
+      'ruff',
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
