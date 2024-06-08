@@ -80,7 +80,7 @@ if not vim.uv.fs_stat(lazypath) then
     lazyrepo,
     lazypath,
   }
-end ---@diagnostic disable-next-line: undefined-field
+end
 vim.opt.rtp:prepend(lazypath)
 
 --  NOTE: Plugins
