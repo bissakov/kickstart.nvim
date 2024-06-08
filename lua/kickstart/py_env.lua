@@ -2,12 +2,9 @@ local M = {}
 
 function M.setup()
   local venv = vim.fn.stdpath 'config' .. '/venv'
-  local is_win32 = vim.fn.has 'win32' == 1
-  local bin_path = ''
-  local pip = ''
-  local py = ''
 
-  if is_win32 then
+  local bin_path, pip, py
+  if vim.fn.has 'win32' == 1 then
     bin_path = venv .. '/Scripts'
     pip = bin_path .. '/pip.exe'
     py = bin_path .. '/python.exe'
