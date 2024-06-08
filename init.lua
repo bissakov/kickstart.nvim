@@ -64,7 +64,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
-require 'kickstart.fold_docstring'
+vim.keymap.set(
+  'n',
+  '<leader>df',
+  require('kickstart.fold_docstring').docstring_fold,
+  { desc = 'Fold [D]ocstrings' }
+)
 require 'kickstart.format'
 
 --  NOTE: Lazy setup

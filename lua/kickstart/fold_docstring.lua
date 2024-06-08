@@ -1,3 +1,5 @@
+local M = {}
+
 vim.api.nvim_create_namespace 'docstring_fold_ns'
 function _G.DocstringFoldExpr(lnum)
   local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
@@ -22,7 +24,7 @@ function _G.DocstringFoldExpr(lnum)
   return fold_levels[lnum] or 0
 end
 
-function _G.DocstringFold()
+function M.docstring_fold()
   local current_file_type = vim.bo.filetype
   if current_file_type ~= 'python' then
     return
@@ -41,9 +43,4 @@ function _G.DocstringFold()
   vim.opt_local.foldenable = true
 end
 
-vim.keymap.set(
-  'n',
-  '<leader>df',
-  '<cmd>lua DocstringFold()<CR>',
-  { desc = 'Fold [D]ocstrings' }
-)
+return M
