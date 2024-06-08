@@ -164,24 +164,25 @@ return {
       'isort',
       'ruff',
     })
+    local excluded_servers = { 'ruff' }
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
     require('mason-lspconfig').setup {
       handlers = {
         function(server_name)
+          if vim.tbl_contains(excluded_servers, server_name) then
+            return
+          end
+
           local server = servers[server_name] or {}
           server.capabilities =
             vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
 
           if server_name == 'ruff_lsp' then
             server.capabilities.hoverProvider = false
-          elseif server_name == 'ruff' then
-            server.capabilities.hoverProvider = false
           end
 
-          if server_name ~= 'ruff' then
-            require('lspconfig')[server_name].setup(server)
-          end
+          require('lspconfig')[server_name].setup(server)
         end,
       },
     }
