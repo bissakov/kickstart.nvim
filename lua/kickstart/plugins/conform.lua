@@ -15,7 +15,7 @@ return {
     },
   },
   opts = {
-    log_level = vim.log.levels.DEBUG,
+    log_level = vim.log.levels.INFO,
     notify_on_error = true,
     format_on_save = function(bufnr)
       local disable_filetypes = { c = true, cpp = true }
