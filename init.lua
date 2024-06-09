@@ -63,17 +63,7 @@ vim.keymap.set(
 )
 
 vim.keymap.set('v', '<leader>gz', function()
-  vim.cmd.normal { '"zy', bang = true }
-  local selection = vim.fn.getreg 'z'
-
-  local fidget = require 'fidget'
-
-  fidget.notify('Searching Google for: ' .. selection, vim.log.levels.INFO)
-
-  local url = 'https://www.google.com/search?q=' .. vim.fn.escape(selection, ' ')
-  fidget.notify('Opening: ' .. url, vim.log.levels.INFO)
-  print('Searching Google for:', selection)
-  os.execute('start ' .. url)
+  require('kickstart.plugins.web_search').web_seach 'google'
 end, { desc = '[Z] [G]oogle Search' })
 
 --  NOTE: Autocommands
