@@ -107,6 +107,16 @@ require('lazy').setup {
   require 'kickstart.plugins.plugins',
 }
 
+require('conform').formatters.isort = {
+  args = function(_, _)
+    return {
+      '--stdout',
+      '--filename',
+      '$FILENAME',
+      '-',
+    }
+  end,
+}
 vim.api.nvim_create_autocmd('BufWritePre', {
   pattern = '*',
   callback = function(args)
