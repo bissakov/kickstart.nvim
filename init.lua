@@ -103,8 +103,6 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
---  NOTE: Plugins
-
 require('lazy').setup {
   require 'kickstart.plugins.plugins',
 }
