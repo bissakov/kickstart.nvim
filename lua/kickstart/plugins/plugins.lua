@@ -23,6 +23,7 @@ return {
   require 'kickstart.plugins.telescope',
   require 'kickstart.plugins.theme',
   require 'kickstart.plugins.lsp',
+  require 'kickstart.plugins.conform',
 
   { 'Bilal2453/luvit-meta', lazy = true },
 

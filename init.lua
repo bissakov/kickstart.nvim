@@ -70,7 +70,7 @@ vim.keymap.set(
   require('kickstart.fold_docstring').docstring_fold,
   { desc = 'Fold [D]ocstrings' }
 )
-require 'kickstart.format'
+-- require 'kickstart.format'
 
 --  NOTE: Lazy setup
 
@@ -102,3 +102,9 @@ vim.keymap.set('v', '<leader>gz', function()
   print('Searching Google for:', selection)
   os.execute('start ' .. url)
 end, { desc = '[Z] [G]oogle Search' })
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = '*',
+  callback = function(args)
+    require('conform').format { bufnr = args.buf }
+  end,
+})
