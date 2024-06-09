@@ -55,6 +55,27 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+vim.keymap.set(
+  'n',
+  '<leader>df',
+  require('kickstart.fold_docstring').docstring_fold,
+  { desc = 'Fold [D]ocstrings' }
+)
+
+vim.keymap.set('v', '<leader>gz', function()
+  vim.cmd.normal { '"zy', bang = true }
+  local selection = vim.fn.getreg 'z'
+
+  local fidget = require 'fidget'
+
+  fidget.notify('Searching Google for: ' .. selection, vim.log.levels.INFO)
+
+  local url = 'https://www.google.com/search?q=' .. vim.fn.escape(selection, ' ')
+  fidget.notify('Opening: ' .. url, vim.log.levels.INFO)
+  print('Searching Google for:', selection)
+  os.execute('start ' .. url)
+end, { desc = '[Z] [G]oogle Search' })
+
 --  NOTE: Autocommands
 
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -64,12 +85,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
-vim.keymap.set(
-  'n',
-  '<leader>df',
-  require('kickstart.fold_docstring').docstring_fold,
-  { desc = 'Fold [D]ocstrings' }
-)
 -- require 'kickstart.format'
 
 --  NOTE: Lazy setup
@@ -94,14 +109,6 @@ require('lazy').setup {
   require 'kickstart.plugins.plugins',
 }
 
-vim.keymap.set('v', '<leader>gz', function()
-  vim.cmd.normal { '"zy', bang = true }
-  local selection = vim.fn.getreg 'z'
-
-  local url = 'https://www.google.com/search?q=' .. vim.fn.escape(selection, ' ')
-  print('Searching Google for:', selection)
-  os.execute('start ' .. url)
-end, { desc = '[Z] [G]oogle Search' })
 vim.api.nvim_create_autocmd('BufWritePre', {
   pattern = '*',
   callback = function(args)
