@@ -125,6 +125,7 @@ return {
         'luadoc',
         'markdown',
         'python',
+        'query',
         'vim',
         'vimdoc',
       },
@@ -145,6 +146,34 @@ return {
       require('nvim-treesitter.install').prefer_git = true
       ---@diagnostic disable-next-line: missing-fields
       require('nvim-treesitter.configs').setup(opts)
+    end,
+  },
+
+  {
+    'nvim-treesitter/playground',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function()
+      ---@diagnostic disable-next-line: missing-fields
+      require('nvim-treesitter.configs').setup {
+        playground = {
+          enable = true,
+          disable = {},
+          updatetime = 25,
+          persist_queries = false,
+          keybindings = {
+            toggle_query_editor = 'o',
+            toggle_hl_groups = 'i',
+            toggle_injected_languages = 't',
+            toggle_anonymous_nodes = 'a',
+            toggle_language_display = 'I',
+            focus_language = 'f',
+            unfocus_language = 'F',
+            update = 'R',
+            goto_node = '<cr>',
+            show_help = '?',
+          },
+        },
+      }
     end,
   },
 
