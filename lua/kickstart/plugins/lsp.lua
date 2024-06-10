@@ -1,59 +1,5 @@
 return {
   {
-    'p00f/clangd_extensions.nvim',
-    lazy = true,
-    config = function() end,
-    opts = {
-      {
-        inlay_hints = {
-          inline = vim.fn.has 'nvim-0.10' == 1,
-          only_current_line = false,
-          only_current_line_autocmd = { 'CursorHold' },
-          show_parameter_hints = true,
-          parameter_hints_prefix = '<- ',
-          other_hints_prefix = '=> ',
-          max_len_align = false,
-          max_len_align_padding = 1,
-          right_align = false,
-          right_align_padding = 7,
-          highlight = 'Comment',
-          priority = 100,
-        },
-        ast = {
-          -- These require codicons (https://github.com/microsoft/vscode-codicons)
-          role_icons = {
-            type = '',
-            declaration = '',
-            expression = '',
-            specifier = '',
-            statement = '',
-            ['template argument'] = '',
-          },
-
-          kind_icons = {
-            Compound = '',
-            Recovery = '',
-            TranslationUnit = '',
-            PackExpansion = '',
-            TemplateTypeParm = '',
-            TemplateTemplateParm = '',
-            TemplateParamObject = '',
-          },
-
-          highlights = {
-            detail = 'Comment',
-          },
-        },
-        memory_usage = {
-          border = 'none',
-        },
-        symbol_info = {
-          border = 'none',
-        },
-      },
-    },
-  },
-  {
     'neovim/nvim-lspconfig',
     dependencies = {
       { 'williamboman/mason.nvim', config = true },
