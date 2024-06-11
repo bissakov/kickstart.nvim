@@ -24,6 +24,7 @@ return {
   require 'kickstart.plugins.theme',
   require 'kickstart.plugins.lsp',
   require 'kickstart.plugins.conform',
+  require 'kickstart.plugins.oil',
 
   { 'Bilal2453/luvit-meta', lazy = true },
 
