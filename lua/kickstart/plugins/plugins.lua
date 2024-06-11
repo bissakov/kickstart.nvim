@@ -264,8 +264,13 @@ return {
       cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
     end,
   },
-  'mg979/vim-visual-multi',
-  'github/copilot.vim',
+  {
+    'mg979/vim-visual-multi',
+    event = 'BufEnter',
+  },
+  {
+    'github/copilot.vim',
+  },
 }, {
   ui = {
     icons = vim.g.have_nerd_font and {} or {
