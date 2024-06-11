@@ -11,13 +11,6 @@ conform.formatters.isort = {
     }
   end,
 }
--- BUG: This does not work (wrong arg sequence)
--- conform.formatters.ruff_format = {
---   prepend_args = {
---     '--line-length',
---     '80',
---   },
--- }
 
 -- HACK: This hack works (overriding args)
 conform.formatters.ruff_format = {
