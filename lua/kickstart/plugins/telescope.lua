@@ -27,6 +27,7 @@ return {
           '.github',
           'logs',
           'src_old',
+          '%.exe',
         },
       },
       extensions = {
