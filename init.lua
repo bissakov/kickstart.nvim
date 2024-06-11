@@ -2,7 +2,7 @@
 
 --  NOTE: Logging
 
-vim.lsp.set_log_level = 'INFO'
+vim.lsp.set_log_level = 'DEBUG'
 
 --  NOTE: Globals
 
