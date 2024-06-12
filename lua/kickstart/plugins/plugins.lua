@@ -28,7 +28,9 @@ return {
   require 'kickstart.plugins.conform',
   require 'kickstart.plugins.oil',
 
-  { 'Bilal2453/luvit-meta', lazy = true },
+  {
+    'Bilal2453/luvit-meta',
+  },
 
   {
     'hrsh7th/nvim-cmp',
