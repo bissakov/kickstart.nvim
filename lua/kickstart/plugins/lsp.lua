@@ -1,6 +1,14 @@
 return {
   {
     'neovim/nvim-lspconfig',
+    ft = {
+      'python',
+      'lua',
+      'go',
+      'c',
+      'cpp',
+      'json',
+    },
     dependencies = {
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',

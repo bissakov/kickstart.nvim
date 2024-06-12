@@ -215,7 +215,13 @@ return {
   {
     'folke/trouble.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    opts = {},
+    ft = {
+      'python',
+      'lua',
+      'go',
+      'c',
+      'cpp',
+    },
   },
   {
     'windwp/nvim-autopairs',
@@ -236,6 +242,16 @@ return {
   },
   {
     'github/copilot.vim',
+    ft = {
+      'python',
+      'lua',
+      'go',
+      'c',
+      'html',
+      'json',
+      'yaml',
+      'markdown',
+    },
   },
 }, {
   ui = {
