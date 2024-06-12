@@ -1,3 +1,5 @@
+local supported_langs = require 'kickstart.supported_langs'
+
 return {
   {
     'folke/which-key.nvim',
@@ -95,7 +97,7 @@ return {
 
   {
     'folke/todo-comments.nvim',
-    event = 'VimEnter',
+    ft = supported_langs,
     dependencies = { 'nvim-lua/plenary.nvim' },
     opts = { signs = false },
   },
@@ -120,8 +122,8 @@ return {
 
   {
     'lukas-reineke/indent-blankline.nvim',
+    ft = supported_langs,
     main = 'ibl',
-    opts = {},
     config = function()
       require('ibl').setup {
         debounce = 100,
@@ -132,28 +134,12 @@ return {
     end,
   },
   {
-    'mfussenegger/nvim-lint',
-    event = { 'BufReadPre', 'BufNewFile' },
-    config = function()
-      local lint = require 'lint'
-      lint.linters_by_ft = {
-        markdown = { 'markdownlint' },
-      }
-
-      local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
-      vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
-        group = lint_augroup,
-        callback = function()
-          lint.try_lint()
-        end,
-      })
-    end,
+    'tpope/vim-sleuth',
+    ft = supported_langs,
   },
-
-  'tpope/vim-sleuth',
   {
     'lewis6991/gitsigns.nvim',
-    event = 'BufRead',
+    ft = supported_langs,
     opts = {
       on_attach = function(bufnr)
         local gitsigns = require 'gitsigns'
@@ -215,13 +201,7 @@ return {
   {
     'folke/trouble.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    ft = {
-      'python',
-      'lua',
-      'go',
-      'c',
-      'cpp',
-    },
+    ft = supported_langs,
   },
   {
     'windwp/nvim-autopairs',
@@ -242,16 +222,7 @@ return {
   },
   {
     'github/copilot.vim',
-    ft = {
-      'python',
-      'lua',
-      'go',
-      'c',
-      'html',
-      'json',
-      'yaml',
-      'markdown',
-    },
+    ft = supported_langs,
   },
 }, {
   ui = {

@@ -1,14 +1,9 @@
+local supported_langs = require 'kickstart.supported_langs'
+
 return {
   {
     'neovim/nvim-lspconfig',
-    ft = {
-      'python',
-      'lua',
-      'go',
-      'c',
-      'cpp',
-      'json',
-    },
+    ft = supported_langs,
     dependencies = {
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',

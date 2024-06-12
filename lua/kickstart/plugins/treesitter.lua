@@ -1,23 +1,11 @@
-local ensure_installed = {
-  'bash',
-  'c',
-  'diff',
-  'html',
-  'lua',
-  'luadoc',
-  'markdown',
-  'python',
-  'query',
-  'vim',
-  'vimdoc',
-}
+local supported_langs = require 'kickstart.supported_langs'
 
 return {
   'nvim-treesitter/nvim-treesitter',
   build = ':TSUpdate',
-  ft = ensure_installed,
+  ft = supported_langs,
   opts = {
-    ensure_installed = ensure_installed,
+    ensure_installed = supported_langs,
     auto_install = true,
     incremental_selection = {
       enable = true,
