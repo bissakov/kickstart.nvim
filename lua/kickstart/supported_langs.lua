@@ -1,0 +1,15 @@
+return {
+  'bash',
+  'c',
+  'diff',
+  'go',
+  'html',
+  'json',
+  'lua',
+  'luadoc',
+  'markdown',
+  'python',
+  'query',
+  'vim',
+  'vimdoc',
+}
