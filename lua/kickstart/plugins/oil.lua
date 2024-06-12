@@ -4,8 +4,6 @@ return {
     default_file_explorer = true,
     columns = {
       'icon',
-      'size',
-      { 'mtime', highlight = 'special', format = '%Y-%m-%d %H:%M' },
     },
     buf_options = {
       buflisted = false,
