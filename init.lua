@@ -58,12 +58,12 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 vim.keymap.set('n', '<C-d>', 'yyp', { desc = 'Duplicate current line [D]own' })
 vim.keymap.set('n', '<C-a>', 'ggVG', { desc = 'Select all [A]' })
 
-vim.keymap.set(
-  'n',
-  '<leader>df',
-  require('kickstart.fold_docstring').docstring_fold,
-  { desc = 'Fold [D]ocstrings' }
-)
+-- vim.keymap.set(
+--   'n',
+--   '<leader>df',
+--   require('kickstart.fold_docstring').docstring_fold,
+--   { desc = 'Fold [D]ocstrings' }
+-- )
 
 vim.keymap.set('v', '<leader>gz', function()
   require('kickstart.plugins.web_search').web_seach 'google'
