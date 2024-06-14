@@ -79,11 +79,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
-vim.api.nvim_create_autocmd('VimLeavePre', {
-  desc = 'Clean GitHub Copilot telemetry from LSP log',
-  group = vim.api.nvim_create_augroup('kickstart-clean-copilot-log', { clear = true }),
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
+  pattern = '*.cpp',
   callback = function()
-    require('kickstart.log_cleaner').clean_copilot_log()
+    vim.bo.commentstring = '// %s'
   end,
 })
 
