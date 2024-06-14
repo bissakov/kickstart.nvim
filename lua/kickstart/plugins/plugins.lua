@@ -30,7 +30,7 @@ return {
 
   {
     'bissakov/copilot-telemetry-log-clean.nvim',
-    event = 'VimEnter',
+    event = 'VimLeavePre',
     dependencies = {
       'j-hui/fidget.nvim',
       'nvim-lua/plenary.nvim',
