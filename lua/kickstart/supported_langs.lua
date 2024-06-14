@@ -1,6 +1,8 @@
 return {
   'bash',
   'c',
+  'cpp',
+  'cmake',
   'diff',
   'go',
   'html',
@@ -12,4 +14,6 @@ return {
   'query',
   'vim',
   'vimdoc',
+  'yaml',
+  'yml',
 }
