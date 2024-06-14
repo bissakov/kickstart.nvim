@@ -87,6 +87,14 @@ vim.api.nvim_create_autocmd('VimLeavePre', {
   end,
 })
 
+-- vim.api.nvim_create_autocmd('VimLeavePre', {
+--   desc = 'Clean GitHub Copilot telemetry from LSP log',
+--   group = vim.api.nvim_create_augroup('kickstart-clean-copilot-log', { clear = true }),
+--   callback = function()
+--     require('kickstart.log_cleaner').clean_copilot_log()
+--   end,
+-- })
+
 --  NOTE: Lazy setup
 
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'

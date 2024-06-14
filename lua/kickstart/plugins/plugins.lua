@@ -29,9 +29,23 @@ return {
   require 'kickstart.plugins.oil',
 
   {
+    'bissakov/copilot-telemetry-log-clean.nvim',
+    event = 'VimEnter',
+    dependencies = {
+      'j-hui/fidget.nvim',
+      'nvim-lua/plenary.nvim',
+    },
+    opts = {
+      timeout = 1000,
+    },
+    config = function(_, opts)
+      local copilot_log_clean = require 'copilot-telemetry-log-clean'
+      copilot_log_clean.setup(opts)
+    end,
+  },
+  {
     'Bilal2453/luvit-meta',
   },
-
   {
     'hrsh7th/nvim-cmp',
     event = 'InsertEnter',
