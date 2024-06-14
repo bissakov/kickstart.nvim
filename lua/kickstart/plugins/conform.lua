@@ -30,6 +30,9 @@ return {
       },
       go = { 'gofmt', 'goimports' },
       c = { 'clang-format' },
+      cpp = { 'clang-format' },
+      javascript = { 'prettierd' },
+      typescript = { 'prettierd' },
     },
   },
   config = function(_, opts)
