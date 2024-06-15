@@ -161,6 +161,32 @@ return {
 
         --  NOTE: JSON Plugins
         jq = {},
+
+        --  NOTE: JavaScript Plugins
+        angularls = {
+          cmd = { 'ngserver' },
+          filetypes = {
+            'ts',
+            'typescript',
+            'html',
+          },
+          settings = {
+            angularls = {
+              args = {
+                '--stdio',
+                '--tsProbeLocations',
+                '/usr/local/lib/node_modules/typescript/lib',
+                '--ngProbeLocations',
+                '/usr/local/lib/node_modules/@angular/language-server/bin',
+              },
+              trace = {
+                server = {
+                  verbosity = 'verbose',
+                },
+              },
+            },
+          },
+        },
       }
 
       require('mason').setup()
@@ -170,6 +196,7 @@ return {
         'stylua',
         'isort',
         'ruff',
+        'prettierd',
       })
       local excluded_servers = { 'ruff' }
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
