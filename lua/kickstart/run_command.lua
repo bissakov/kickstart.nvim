@@ -70,6 +70,17 @@ end
 M.run = function(opts)
   opts = vim.tbl_extend('force', M.opts, opts)
 
+  -- get all buffers
+  local buffers = vim.api.nvim_list_bufs()
+  for _, buffer in ipairs(buffers) do
+    -- get first line
+    local first_line = vim.api.nvim_buf_get_lines(buffer, 0, 1, false)[1]
+    if string.match(first_line, '%=%=%=') ~= nil then
+      print(buffer)
+      break
+    end
+  end
+
   local current_time = os.date '%Y-%m-%d %H:%M:%S'
 
   local file_name = vim.fn.expand '%:t'
@@ -81,19 +92,16 @@ M.run = function(opts)
   if bufnr == nil then
     vim.cmd 'vsplit'
     bufnr = vim.api.nvim_create_buf(false, true)
+    print('bufnr:', bufnr)
     vim.bo[bufnr].filetype = 'log'
   end
   vim.api.nvim_win_set_width(0, 75)
   vim.api.nvim_win_set_buf(0, bufnr)
 
-  vim.api.nvim_buf_set_lines(
-    bufnr,
-    0,
-    -1,
-    false,
-    -- { comment:format(current_time .. ' output of `' .. file_name .. '`:') }
-    { current_time .. ' output of `' .. file_name .. '`:' }
-  )
+  vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, {
+    '==============================',
+    current_time .. ' output of `' .. file_name .. '`:',
+  })
 
   M.jobstart(cmd.compile(opts.source, opts.executable))
   M.jobstart(cmd.run(opts.executable))
