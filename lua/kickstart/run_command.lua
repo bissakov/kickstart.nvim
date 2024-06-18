@@ -7,7 +7,7 @@ M.opts = {
   width = 75,
 }
 
-local bufnr = nil
+local bufnr = 0
 
 M.cmd = {
   cpp = {
@@ -34,6 +34,18 @@ M.comment_style = {
   python = '# %s',
 }
 
+--- @param data table: The data to process.
+local function process_lines(data)
+  if data then
+    for _, line in ipairs(data) do
+      if line ~= '' then
+        line = string.gsub(line, '\r', '')
+        vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, { line })
+      end
+    end
+  end
+end
+
 --- Run a command and display the output in a new buffer.
 --- @param cmd table?: The command to run.
 --- @return nil
@@ -42,27 +54,13 @@ M.jobstart = function(cmd)
     return
   end
 
-  assert(type(bufnr) == 'number', 'bufnr is not a number')
-
   vim.fn.jobstart(cmd, {
     stdout_buffered = true,
     on_stdout = function(_, data, _)
-      if data then
-        for _, line in ipairs(data) do
-          if line ~= '' then
-            line = string.gsub(line, '\r', '')
-            vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, { line })
-          end
-        end
-      end
+      process_lines(data)
     end,
     on_stderr = function(_, data, _)
-      for _, line in ipairs(data) do
-        if line ~= '' then
-          line = string.gsub(line, '\r', '')
-          vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, { line })
-        end
-      end
+      process_lines(data)
     end,
   })
 end
@@ -70,10 +68,8 @@ end
 M.run = function(opts)
   opts = vim.tbl_extend('force', M.opts, opts)
 
-  -- get all buffers
   local buffers = vim.api.nvim_list_bufs()
   for _, buffer in ipairs(buffers) do
-    -- get first line
     local first_line = vim.api.nvim_buf_get_lines(buffer, 0, 1, false)[1]
     if string.match(first_line, '%=%=%=') ~= nil then
       print(buffer)
@@ -89,7 +85,7 @@ M.run = function(opts)
   local comment = M.comment_style[opts.file_ext]
   local cmd = M.cmd[opts.file_ext]
 
-  if bufnr == nil then
+  if bufnr == 0 then
     vim.cmd 'vsplit'
     bufnr = vim.api.nvim_create_buf(false, true)
     print('bufnr:', bufnr)
