@@ -151,7 +151,6 @@ return {
   },
   {
     'tpope/vim-sleuth',
-    ft = supported_langs,
   },
   {
     'lewis6991/gitsigns.nvim',
