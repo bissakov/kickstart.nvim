@@ -1,5 +1,3 @@
--- kickstart.nvim
-
 --  NOTE: Logging
 
 vim.lsp.set_log_level = 'DEBUG'
