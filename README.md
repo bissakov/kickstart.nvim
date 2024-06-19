@@ -15,8 +15,7 @@ Alikhan Bissakov's fork of the kickstart.nvim configuration. The original kickst
 External Requirements:
 - Basic utils: `git`, `make`, `unzip`, `gcc`, `make`, `rg`, `fd`, `fzf`, `jsregexp`, `wget`, `curl`, `gzip`, `tar`, `pwsh`, `7z`, `win32yank`
 - [ripgrep](https://github.com/BurntSushi/ripgrep#installation)
-- A [Nerd Font](https://www.nerdfonts.com/): optional, provides various icons
-  - if you have it set `vim.g.have_nerd_font` in `init.lua` to true
+- A [Nerd Font](https://www.nerdfonts.com/)
 - Language Setup:
   - If want to write Typescript, you need `npm`
   - If want to write Golang, you will need `go`
@@ -53,7 +52,7 @@ fork to your machine using one of the commands below, depending on your OS.
 <details><summary> Linux and Mac </summary>
 
 ```sh
-git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+git clone https://github.com/bissakov/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
 ```
 
 </details>
