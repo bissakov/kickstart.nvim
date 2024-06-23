@@ -149,9 +149,7 @@ return {
       }
     end,
   },
-  {
-    'tpope/vim-sleuth',
-  },
+  'tpope/vim-sleuth',
   {
     'lewis6991/gitsigns.nvim',
     ft = supported_langs,
