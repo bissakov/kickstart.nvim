@@ -35,10 +35,7 @@ return {
   },
   config = function(_, opts)
     require('nvim-treesitter.install').prefer_git = true
-
     opts.ensure_installed = get_supported_languages(supported_langs)
-
-    ---@diagnostic disable-next-line: missing-fields
     require('nvim-treesitter.configs').setup(opts)
   end,
 }
