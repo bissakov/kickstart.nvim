@@ -26,6 +26,7 @@ return {
   require 'kickstart.plugins.theme',
   require 'kickstart.plugins.lsp',
   require 'kickstart.plugins.conform',
+  require 'kickstart.plugins.lint',
   require 'kickstart.plugins.oil',
 
   {
