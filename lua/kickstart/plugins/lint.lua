@@ -1,24 +1,11 @@
 return {
-  {
-    'mfussenegger/nvim-lint',
-    event = { 'BufReadPre', 'BufNewFile' },
-    config = function()
-      local lint = require 'lint'
-      lint.linters_by_ft = {
-        c = { 'cpplint' },
-        cpp = { 'cpplint' },
-        lua = { 'selene' },
-        markdown = { 'markdownlint' },
-        python = { 'ruff' },
-      }
-
-      local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
-      vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
-        group = lint_augroup,
-        callback = function()
-          require('lint').try_lint()
-        end,
-      })
-    end,
-  },
+  'dense-analysis/ale',
+  config = function()
+    local g = vim.g
+    g.ale_ruby_rubocop_auto_correct_all = 1
+    g.ale_linters = {
+      cpp = { 'cpplint' },
+      lua = { 'selene' },
+    }
+  end,
 }
