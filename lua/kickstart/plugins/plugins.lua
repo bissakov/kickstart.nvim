@@ -116,9 +116,14 @@ return {
     'folke/todo-comments.nvim',
     ft = supported_langs,
     dependencies = { 'nvim-lua/plenary.nvim' },
-    opts = { signs = false },
+    opts = {
+      signs = false,
+      highlight = {
+        keyword = 'bg',
+        pattern = [[.*<(KEYWORDS)\s*:*]],
+      },
+    },
   },
-
   {
     'echasnovski/mini.nvim',
     config = function()
