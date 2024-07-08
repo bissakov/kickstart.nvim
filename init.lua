@@ -74,7 +74,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
-  pattern = '*.cpp',
+  pattern = { '*.cpp', '*.h' },
   callback = function()
     vim.bo.commentstring = '// %s'
   end,
