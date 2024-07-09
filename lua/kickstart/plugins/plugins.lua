@@ -19,6 +19,8 @@ return {
       require('which-key').register({
         ['<leader>h'] = { 'Git [H]unk' },
       }, { mode = 'v' })
+
+      vim.api.nvim_create_user_command('W', 'w', {})
     end,
   },
 
