@@ -220,7 +220,10 @@ return {
   {
     'folke/trouble.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    ft = supported_langs,
+    cmd = 'Trouble',
+    config = function()
+      require('trouble').setup()
+    end,
   },
   {
     'windwp/nvim-autopairs',
@@ -242,6 +245,9 @@ return {
   {
     'github/copilot.vim',
     ft = supported_langs,
+    config = function()
+      vim.cmd 'Copilot disable'
+    end,
   },
 }, {
   ui = {
