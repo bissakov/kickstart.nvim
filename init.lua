@@ -41,6 +41,8 @@ vim.opt.hlsearch = true
 vim.keymap.set('n', 'x', '"_x', { desc = 'Delete character without yanking' })
 vim.keymap.set('n', '<M-x>', '"_dd', { desc = 'Cut the current line without yanking' })
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set('n', 'gb', '<c-o>', { desc = '[G]o [B]ack' })
+vim.api.nvim_create_user_command('Q', 'q', {})
 
 vim.keymap.set(
   'n',
