@@ -28,6 +28,7 @@ return {
   require 'kickstart.plugins.conform',
   require 'kickstart.plugins.lint',
   require 'kickstart.plugins.oil',
+  require 'overseer.overseer',
 
   {
     'bissakov/copilot-telemetry-log-clean.nvim',
