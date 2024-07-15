@@ -154,9 +154,27 @@ return {
           },
         },
 
-        --  NOTE: C Plugins
+        --  NOTE: C/C++ Plugins
         clangd = {
           cmd = { 'clangd', '--offset-encoding=utf-16' },
+        },
+        neocmake = {
+          cmd = { 'neocmakelsp', '--stdio' },
+          filetypes = { 'cmake' },
+          single_file_support = true,
+          settings = {
+            neocmake = {
+              init_options = {
+                format = {
+                  enable = true,
+                },
+                lint = {
+                  enable = true,
+                },
+                scan_cmake_in_package = true,
+              },
+            },
+          },
         },
 
         --  NOTE: JSON Plugins
