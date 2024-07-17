@@ -33,12 +33,13 @@ return {
   {
     'bissakov/copilot-telemetry-log-clean.nvim',
     event = 'VimLeavePre',
+    enabled = true,
     dependencies = {
       'j-hui/fidget.nvim',
       'nvim-lua/plenary.nvim',
     },
     opts = {
-      timeout = 1000,
+      timeout = 500,
     },
     config = function(_, opts)
       local copilot_log_clean = require 'copilot-telemetry-log-clean'
