@@ -12,7 +12,13 @@ return {
     init = function()
       require('kanagawa').setup()
 
-      vim.cmd.colorscheme 'kanagawa-dragon'
+      local time = os.date '*t'
+      if time.hour < 8 or time.hour > 19 then
+        vim.cmd.colorscheme 'kanagawa-dragon'
+      else
+        vim.cmd.colorscheme 'kanagawa-wave'
+      end
+
       vim.cmd.hi 'Comment gui=none'
     end,
   },
