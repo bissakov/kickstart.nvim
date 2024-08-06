@@ -19,7 +19,27 @@ end
 return {
   'nvim-treesitter/nvim-treesitter',
   build = ':TSUpdate',
-  ft = supported_langs,
+  ft = {
+    'bash',
+    'c',
+    'cpp',
+    'cmake',
+    'diff',
+    'go',
+    'html',
+    'json',
+    'lua',
+    'luadoc',
+    'markdown',
+    'markdown_inline',
+    'query',
+    'python',
+    'query',
+    'vim',
+    'vimdoc',
+    'yaml',
+    'yml',
+  },
   opts = {
     auto_install = true,
     incremental_selection = {
@@ -34,7 +54,6 @@ return {
     indent = { enable = true },
   },
   config = function(_, opts)
-    require('nvim-treesitter.install').prefer_git = true
     opts.ensure_installed = get_supported_languages(supported_langs)
     require('nvim-treesitter.configs').setup(opts)
   end,

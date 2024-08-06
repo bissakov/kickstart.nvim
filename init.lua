@@ -15,7 +15,11 @@ vim.opt.relativenumber = false
 vim.opt.cursorline = true
 vim.opt.mouse = 'a'
 vim.opt.showmode = true
-vim.opt.clipboard = 'unnamedplus'
+
+vim.schedule(function()
+  vim.opt.clipboard = 'unnamedplus'
+end)
+
 vim.opt.breakindent = true
 vim.opt.undofile = true
 vim.opt.ignorecase = true
@@ -26,7 +30,9 @@ vim.opt.timeoutlen = 50
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+-- vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+-- vim.opt.listchars = { tab = '▹ ', trail = '·', nbsp = '␣' }
+vim.opt.listchars = { tab = '  ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 vim.opt.scrolloff = 8
@@ -38,7 +44,6 @@ require 'kickstart.mappings'
 
 --  NOTE: Keymaps
 
-vim.opt.hlsearch = true
 vim.keymap.set('n', 'x', '"_x', { desc = 'Delete character without yanking' })
 vim.keymap.set('v', 'p', '"_dP', { desc = 'Paste without yanking' })
 vim.keymap.set('n', '<M-x>', '"_dd', { desc = 'Cut the current line without yanking' })
@@ -53,6 +58,12 @@ vim.keymap.set(
   vim.diagnostic.setloclist,
   { desc = 'Open diagnostic [Q]uickfix list' }
 )
+
+vim.keymap.set('n', '\\', function()
+  if vim.bo.filetype ~= 'oil' then
+    vim.cmd 'Oil'
+  end
+end, { desc = 'Oil reveal' })
 
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
@@ -124,7 +135,7 @@ vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
-  vim.fn.system {
+  local out = vim.fn.system {
     'git',
     'clone',
     '--filter=blob:none',
@@ -132,6 +143,9 @@ if not vim.uv.fs_stat(lazypath) then
     lazyrepo,
     lazypath,
   }
+  if vim.v.shell_error ~= 0 then
+    error('Error cloning lazy.nvim:\n' .. out)
+  end
 end
 vim.opt.rtp:prepend(lazypath)
 

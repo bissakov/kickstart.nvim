@@ -9,6 +9,7 @@ return {
       cpp = { 'cpplint', 'clangtidy' },
       lua = { 'selene' },
       python = { 'ruff' },
+      zig = { 'zls' },
     }
 
     g.ale_cpp_clangtidy_extra_options = '-std=c++17 -W4 -Wunused-variable -I. -Isrc -Iinclude'

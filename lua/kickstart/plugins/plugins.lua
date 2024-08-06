@@ -24,6 +24,18 @@ return {
 
   require 'kickstart.plugins.telescope',
   require 'kickstart.plugins.theme',
+
+  {
+    'folke/lazydev.nvim',
+    ft = 'lua',
+    opts = {
+      library = {
+        { path = 'luvit-meta/library', words = { 'vim%.uv' } },
+      },
+    },
+  },
+  { 'Bilal2453/luvit-meta', lazy = true },
+
   require 'kickstart.plugins.lsp',
   require 'kickstart.plugins.conform',
   require 'kickstart.plugins.lint',
@@ -33,6 +45,7 @@ return {
   {
     'johmsalas/text-case.nvim',
     dependencies = { 'nvim-telescope/telescope.nvim' },
+    ft = { 'c', 'cpp' },
     opts = {
       default_keymappings_enabled = false,
       enabled_methods = {
@@ -62,12 +75,11 @@ return {
       'TextCaseOpenTelescopeLSPChange',
       'TextCaseStartReplacingCommand',
     },
-    lazy = false,
   },
   {
     'bissakov/copilot-telemetry-log-clean.nvim',
     event = 'VimLeavePre',
-    enabled = true,
+    enabled = false,
     dependencies = {
       'j-hui/fidget.nvim',
       'nvim-lua/plenary.nvim',

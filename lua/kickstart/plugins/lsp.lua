@@ -6,15 +6,7 @@ return {
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
       { 'j-hui/fidget.nvim', opts = {} },
-      {
-        'folke/lazydev.nvim',
-        ft = 'lua',
-        opts = {
-          library = {
-            'luvit-meta/library',
-          },
-        },
-      },
+      'hrsh7th/cmp-nvim-lsp',
     },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -176,6 +168,9 @@ return {
             },
           },
         },
+
+        --  NOTE: Zig plugins
+        zls = {},
 
         --  NOTE: JSON Plugins
         jq = {},

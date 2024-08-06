@@ -1,5 +1,6 @@
 return {
   'stevearc/overseer.nvim',
+  ft = { 'python', 'c', 'cpp' },
   opts = {
     task_list = {
       bindings = {

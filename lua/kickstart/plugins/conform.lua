@@ -35,6 +35,7 @@ return {
       cpp = { 'clang-format' },
       javascript = { 'prettierd' },
       typescript = { 'prettierd' },
+      zig = { 'zigfmt' },
     },
   },
   config = function(_, opts)
