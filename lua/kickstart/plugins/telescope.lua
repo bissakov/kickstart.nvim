@@ -42,6 +42,7 @@ return {
           '%.vcxproj',
           '%.vcxproj.filters',
           '%.vcxproj.user',
+          'LICENSE',
         },
       },
       extensions = {
