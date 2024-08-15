@@ -43,6 +43,8 @@ return {
           '%.vcxproj.filters',
           '%.vcxproj.user',
           'LICENSE',
+          '%.exe',
+          '%.ppm',
         },
       },
       extensions = {
