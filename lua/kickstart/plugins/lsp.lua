@@ -148,7 +148,19 @@ return {
 
         --  NOTE: C/C++ Plugins
         clangd = {
-          cmd = { 'clangd', '--offset-encoding=utf-16' },
+          cmd = {
+            'clangd',
+            '--offset-encoding=utf-16',
+            '--clang-tidy',
+            '--completion-style=bundled',
+            '--cross-file-rename',
+          },
+          init_options = {
+            clangdFileStatus = true,
+            usePlaceholders = true,
+            completeUnimported = true,
+            semanticHighlighting = true,
+          },
         },
         neocmake = {
           cmd = { 'neocmakelsp', '--stdio' },
