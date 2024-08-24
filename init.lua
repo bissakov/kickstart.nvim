@@ -45,9 +45,18 @@ require 'kickstart.mappings'
 --  NOTE: Keymaps
 
 vim.keymap.set('n', 'x', '"_x', { desc = 'Delete character without yanking' })
+vim.keymap.set('v', 'x', '"_x', { desc = 'Delete character without yanking' })
+
+vim.keymap.set('n', 's', '"_s', { desc = 'Replace character without yanking' })
+vim.keymap.set('v', 's', '"_s', { desc = 'Replace character without yanking' })
+
 vim.keymap.set('v', 'p', '"_dP', { desc = 'Paste without yanking' })
+
 vim.keymap.set('n', '<M-x>', '"_dd', { desc = 'Cut the current line without yanking' })
+vim.keymap.set('v', '<M-x>', '"_dd', { desc = 'Cut the current line without yanking' })
+
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+
 vim.keymap.set('n', 'gb', '<c-o>', { desc = '[G]o [B]ack' })
 vim.keymap.set('i', '<F1>', function() end, { desc = 'Disable documentation' })
 vim.api.nvim_create_user_command('Q', 'q', {})
