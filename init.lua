@@ -58,7 +58,11 @@ vim.keymap.set('v', '<M-x>', '"_dd', { desc = 'Cut the current line without yank
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 vim.keymap.set('n', 'gb', '<c-o>', { desc = '[G]o [B]ack' })
+
 vim.keymap.set('i', '<F1>', function() end, { desc = 'Disable documentation' })
+vim.keymap.set('n', '<F1>', function() end, { desc = 'Disable documentation' })
+vim.keymap.set('v', '<F1>', function() end, { desc = 'Disable documentation' })
+
 vim.api.nvim_create_user_command('Q', 'q', {})
 
 vim.keymap.set(
