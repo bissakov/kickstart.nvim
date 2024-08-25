@@ -290,13 +290,6 @@ return {
     'mg979/vim-visual-multi',
     event = 'BufEnter',
   },
-  {
-    'github/copilot.vim',
-    ft = supported_langs,
-    config = function()
-      vim.cmd 'Copilot disable'
-    end,
-  },
 }, {
   ui = {
     icons = vim.g.have_nerd_font and {} or {
