@@ -38,7 +38,6 @@ vim.opt.smartindent = true
 vim.opt.iskeyword:append { '-' }
 
 require('kickstart.py_env').setup()
-require 'kickstart.mappings'
 
 --  NOTE: Keymaps
 
