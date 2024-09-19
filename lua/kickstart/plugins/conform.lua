@@ -8,7 +8,7 @@ return {
       function()
         require('conform').format {
           async = true,
-          lsp_fallback = true,
+          lsp_format = 'fallback',
         }
       end,
       mode = '',
@@ -18,9 +18,9 @@ return {
   opts = {
     log_level = vim.log.levels.DEBUG,
     notify_on_error = true,
-    format_on_save = { timeout_ms = 500, lsp_fallback = true },
+    format_on_save = { timeout_ms = 500, lsp_format = 'fallback' },
     format_after_save = {
-      lsp_fallback = true,
+      lsp_format = 'fallback',
     },
     formatters_by_ft = {
       lua = { 'stylua' },
