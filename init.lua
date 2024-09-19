@@ -1,6 +1,6 @@
 --  NOTE: Logging
 
-vim.lsp.set_log_level = 'INFO'
+vim.lsp.set_log_level = 'DEBUG'
 
 --  NOTE: Globals
 
@@ -40,6 +40,8 @@ vim.opt.iskeyword:append { '-' }
 require('kickstart.py_env').setup()
 
 --  NOTE: Keymaps
+
+vim.api.nvim_create_user_command('W', 'w', {})
 
 vim.keymap.set('n', 'x', '"_x', { desc = 'Delete character without yanking' })
 vim.keymap.set('v', 'x', '"_x', { desc = 'Delete character without yanking' })
